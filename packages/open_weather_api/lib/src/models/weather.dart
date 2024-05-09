@@ -7,14 +7,16 @@ class Weather {
   final int id;
   final String main;
   final String description;
-  final String icon;
+  final String _icon;
 
   const Weather({
     required this.id,
     required this.main,
     required this.description,
-    required this.icon,
-  });
+    required String icon,
+  }) : _icon = icon;
 
   factory Weather.fromJson(Map<String, dynamic> json) => _$WeatherFromJson(json);
+
+  String get iconUrl => 'https://openweathermap.org/img/wn/$_icon@2x.png';
 }

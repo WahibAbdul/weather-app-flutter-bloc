@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'temperature.g.dart';
 
+/// A class that represents a temperature in Celsius
 @JsonSerializable()
 class Temperature {
   final double day;

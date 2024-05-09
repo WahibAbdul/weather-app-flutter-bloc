@@ -6,8 +6,11 @@ part 'current_forecast.g.dart';
 
 @JsonSerializable()
 class CurrentForecast extends Forecast {
+  /// Temperate in Celsius
   @JsonKey(name: 'temp')
   double temperature;
+
+  /// Temperate in Celsius
   @JsonKey(name: 'feels_like')
   double feelsLike;
 
