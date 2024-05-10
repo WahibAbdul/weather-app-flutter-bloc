@@ -1,4 +1,3 @@
-import 'package:falconi_weather/src/common/constants/dimens.dart';
 import 'package:falconi_weather/src/common/enums/units.dart';
 import 'package:falconi_weather/src/features/home/bloc/location_weather_bloc.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ class WeatherInfoHeaderMenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final unit = context.select((LocationWeatherBloc bloc) => bloc.state.unit);
     return PopupMenuButton(
-      padding: const EdgeInsets.symmetric(horizontal: Dimens.margin),
       icon: const Icon(Icons.more_vert),
       onSelected: (value) => _onSelect(context, value, unit),
       itemBuilder: (context) {

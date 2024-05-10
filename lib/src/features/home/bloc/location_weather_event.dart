@@ -6,9 +6,7 @@ sealed class LocationWeatherEvent {}
 class LocationWeatherRefreshedEvent extends LocationWeatherEvent {}
 
 class LocationWeatherFetchedEvent extends LocationWeatherEvent {
-  final String location;
-
-  LocationWeatherFetchedEvent(this.location);
+  LocationWeatherFetchedEvent();
 }
 
 class LocationWeatherUnitChangedEvent extends LocationWeatherEvent {

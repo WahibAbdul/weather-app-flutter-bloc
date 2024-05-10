@@ -28,7 +28,7 @@ class WeatherForecastErrorView extends StatelessWidget {
         ),
         Spacing.vExtra,
         TextButton.icon(
-          onPressed: () => context.read<LocationWeatherBloc>().add(LocationWeatherFetchedEvent('')),
+          onPressed: () => context.read<LocationWeatherBloc>().add(LocationWeatherRefreshedEvent()),
           icon: const Icon(
             Icons.refresh,
             size: 24,

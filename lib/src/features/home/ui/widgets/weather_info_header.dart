@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:falconi_weather/src/common/constants/dimens.dart';
 import 'package:falconi_weather/src/common/enums/units.dart';
 import 'package:falconi_weather/src/common/extensions/date_extension.dart';
 import 'package:falconi_weather/src/common/extensions/string_extension.dart';
@@ -27,10 +26,13 @@ class WeatherInfoHeader extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-              padding: const EdgeInsets.symmetric(horizontal: Dimens.margin),
-              onPressed: () => _onSearchAction(context),
-              icon: const Icon(Icons.search),
+            // Dummy Button For Positioning
+            const IconButton(
+              onPressed: null,
+              icon: Icon(
+                Icons.refresh,
+                color: Colors.transparent,
+              ),
             ),
             // LOCATION NAME
             Text(weather.date.isToday ? 'Current' : weather.date.formattedDate('EEEE'),
@@ -42,6 +44,7 @@ class WeatherInfoHeader extends StatelessWidget {
           ],
         ),
         // WEATHER IMAGE
+
         if (weather.imageUrl != null)
           CachedNetworkImage(
             imageUrl: weather.imageUrl!,
