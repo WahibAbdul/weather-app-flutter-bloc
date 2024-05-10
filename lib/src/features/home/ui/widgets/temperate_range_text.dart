@@ -14,7 +14,7 @@ class TemperatureRangeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'H:$maxTemperature°   L:$minTemperature°',
+      'L:$minTemperature°  H:$maxTemperature°',
       style: style,
     );
   }

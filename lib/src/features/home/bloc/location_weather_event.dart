@@ -16,3 +16,10 @@ class LocationWeatherUnitChangedEvent extends LocationWeatherEvent {
 
   LocationWeatherUnitChangedEvent(this.unit);
 }
+
+class LocationWeatherSelectedEvent extends LocationWeatherEvent {
+  final int index;
+  final Weather weather;
+
+  LocationWeatherSelectedEvent(this.index, this.weather);
+}

@@ -1,4 +1,3 @@
-import 'package:falconi_weather/src/common/enums/units.dart';
 import 'package:falconi_weather/src/common/models/weather.dart';
 import 'package:falconi_weather/src/common/models/weather_forecast.dart';
 import 'package:open_weather_api/open_weather_api.dart' as api;
@@ -16,6 +15,8 @@ class WeatherRepository {
       current: Weather(
         date: DateTime.fromMillisecondsSinceEpoch(response.current.dateTime * 1000),
         temperature: response.current.temperature.toInt(),
+        minTemperature: response.daily.firstOrNull?.temperature.min.toInt(),
+        maxTemperature: response.daily.firstOrNull?.temperature.max.toInt(),
         description: response.current.weather.firstOrNull?.description ?? '',
         imageUrl: response.current.weather.firstOrNull?.iconUrl,
         humidity: response.current.humidity,
@@ -26,6 +27,7 @@ class WeatherRepository {
       daily: response.daily
           .map((e) => Weather(
                 date: DateTime.fromMillisecondsSinceEpoch(e.dateTime * 1000),
+                temperature: e.temperature.day.toInt(),
                 minTemperature: e.temperature.min.toInt(),
                 maxTemperature: e.temperature.max.toInt(),
                 description: e.weather.firstOrNull?.description ?? '',

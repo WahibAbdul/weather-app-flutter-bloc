@@ -10,46 +10,51 @@ class WeatherDayInfo extends StatelessWidget {
     super.key,
     required this.weather,
     this.unit = Unit.metric,
+    this.onSelected,
   });
   final Weather weather;
   final Unit unit;
+  final VoidCallback? onSelected;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: Dimens.marginMedium,
-        vertical: Dimens.marginSmall,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white.withAlpha(50),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            weather.date.isToday ? 'Today' : weather.date.formattedDate('EEE'),
-            style: theme.textTheme.titleLarge?.copyWith(
-              color: theme.colorScheme.onPrimary,
-              fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: onSelected,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Dimens.marginMedium,
+          vertical: Dimens.marginSmall,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white.withAlpha(50),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              weather.date.isToday ? 'Today' : weather.date.formattedDate('EEE'),
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: theme.colorScheme.onPrimary,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-          if (weather.imageUrl != null)
-            CachedNetworkImage(
-              imageUrl: weather.imageUrl!,
-              width: 50,
-              height: 50,
-            ),
-          Text(
-            '${weather.getMinTemperature(unit)}°/${weather.getMaxTemperature(unit)}°',
-            style: theme.textTheme.titleLarge?.copyWith(
-              color: theme.colorScheme.onPrimary,
-              fontWeight: FontWeight.w600,
-            ),
-          )
-        ],
+            if (weather.imageUrl != null)
+              CachedNetworkImage(
+                imageUrl: weather.imageUrl!,
+                width: 50,
+                height: 50,
+              ),
+            Text(
+              '${weather.getMinTemperature(unit)}°/${weather.getMaxTemperature(unit)}°',
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: theme.colorScheme.onPrimary,
+                fontWeight: FontWeight.w600,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

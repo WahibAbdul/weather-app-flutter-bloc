@@ -8,7 +8,7 @@ class Weather extends Equatable {
   final DateTime date;
 
   /// In Celsius
-  final int? _temperature;
+  final int _temperature;
 
   /// In Celsius
   final int? _minTemperature;
@@ -27,7 +27,7 @@ class Weather extends Equatable {
 
   const Weather({
     required this.date,
-    int? temperature,
+    required int temperature,
     required this.description,
     int? minTemperature,
     int? maxTemperature,
@@ -41,8 +41,8 @@ class Weather extends Equatable {
         _maxTemperature = maxTemperature,
         _windSpeed = windSpeed;
 
-  int? getTemperature(Unit unit) {
-    return unit == Unit.metric ? _temperature : _temperature?.toFahrenheit().toInt();
+  int getTemperature(Unit unit) {
+    return unit == Unit.metric ? _temperature : _temperature.toFahrenheit().toInt();
   }
 
   int? getMinTemperature(Unit unit) {

@@ -10,9 +10,11 @@ class UpcomingForecastView extends StatelessWidget {
     super.key,
     required this.daily,
     this.unit = Unit.metric,
+    this.onSelected,
   });
   final List<Weather> daily;
   final Unit unit;
+  final Function(int, Weather)? onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,11 @@ class UpcomingForecastView extends StatelessWidget {
                       constraints: const BoxConstraints(
                         minWidth: 110,
                       ),
-                      child: WeatherDayInfo(weather: daily[index], unit: unit),
+                      child: WeatherDayInfo(
+                        weather: daily[index],
+                        unit: unit,
+                        onSelected: () => onSelected?.call(index, daily[index]),
+                      ),
                     )),
           ),
         ],

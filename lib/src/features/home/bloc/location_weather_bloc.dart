@@ -3,6 +3,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:falconi_weather/src/common/enums/units.dart';
 import 'package:falconi_weather/src/common/models/location.dart';
+import 'package:falconi_weather/src/common/models/weather.dart';
 import 'package:falconi_weather/src/common/models/weather_forecast.dart';
 import 'package:falconi_weather/src/repositories/weather_repository.dart';
 import 'package:flutter/foundation.dart';
@@ -30,6 +31,8 @@ class LocationWeatherBloc extends Bloc<LocationWeatherEvent, LocationWeatherStat
           return _onFetchEvent(event, emit);
         } else if (event is LocationWeatherUnitChangedEvent) {
           return _onUnitChange(event, emit);
+        } else if (event is LocationWeatherSelectedEvent) {
+          return _onWeatherSelect(event, emit);
         }
       },
       transformer: throttleDroppable(throttleDuration),
@@ -43,6 +46,17 @@ class LocationWeatherBloc extends Bloc<LocationWeatherEvent, LocationWeatherStat
     Emitter<LocationWeatherState> emit,
   ) {
     return emit(state.copyWith(unit: event.unit));
+  }
+
+  void _onWeatherSelect(
+    LocationWeatherSelectedEvent event,
+    Emitter<LocationWeatherState> emit,
+  ) {
+    if (event.index == 0) {
+      return emit(state.copyWith(selectedWeather: state.forecast!.current));
+    } else {
+      return emit(state.copyWith(selectedWeather: event.weather));
+    }
   }
 
   Future<void> _onRefresh(
@@ -70,6 +84,7 @@ class LocationWeatherBloc extends Bloc<LocationWeatherEvent, LocationWeatherStat
       return emit(state.copyWith(
         status: LocationWeatherStateStatus.loaded,
         forecast: forecast,
+        selectedWeather: forecast.current,
       ));
     } on Exception catch (e) {
       return emit(state.copyWith(

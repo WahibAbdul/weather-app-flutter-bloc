@@ -1,23 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:falconi_weather/src/common/constants/dimens.dart';
 import 'package:falconi_weather/src/common/enums/units.dart';
+import 'package:falconi_weather/src/common/extensions/date_extension.dart';
 import 'package:falconi_weather/src/common/extensions/string_extension.dart';
 import 'package:falconi_weather/src/common/models/weather.dart';
-import 'package:falconi_weather/src/features/home/bloc/location_weather_bloc.dart';
 import 'package:falconi_weather/src/features/home/ui/widgets/degree_text.dart';
+import 'package:falconi_weather/src/features/home/ui/widgets/temperate_range_text.dart';
+import 'package:falconi_weather/src/features/home/ui/widgets/weather_header_menu_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-enum WeatherInfoHeaderMenu { changeUnit }
 
 class WeatherInfoHeader extends StatelessWidget {
   const WeatherInfoHeader({
     super.key,
-    required this.location,
     required this.weather,
     required this.unit,
   });
-  final String location;
+
   final Weather weather;
   final Unit unit;
 
@@ -35,29 +33,15 @@ class WeatherInfoHeader extends StatelessWidget {
               icon: const Icon(Icons.search),
             ),
             // LOCATION NAME
-            Text(location.toUpperCase(),
+            Text(weather.date.isToday ? 'Current' : weather.date.formattedDate('EEEE'),
                 style: theme.textTheme.headlineSmall?.copyWith(
                   color: theme.colorScheme.onPrimary,
                   fontWeight: FontWeight.w600,
                 )),
-            PopupMenuButton(
-                padding: const EdgeInsets.symmetric(horizontal: Dimens.margin),
-                icon: const Icon(Icons.more_vert),
-                onSelected: (value) {
-                  context.read<LocationWeatherBloc>().add(LocationWeatherUnitChangedEvent(unit.toggle()));
-                },
-                itemBuilder: (context) {
-                  return [
-                    PopupMenuItem(
-                      value: WeatherInfoHeaderMenu.changeUnit,
-                      child: Text(
-                        unit == Unit.metric ? 'Change to Imperial' : 'Change to Metric',
-                      ),
-                    ),
-                  ];
-                }),
+            const WeatherInfoHeaderMenuButton(),
           ],
         ),
+        // WEATHER IMAGE
         if (weather.imageUrl != null)
           CachedNetworkImage(
             imageUrl: weather.imageUrl!,
@@ -66,25 +50,29 @@ class WeatherInfoHeader extends StatelessWidget {
           ),
         // TEMPERATURE
         DegreeText(
-            temperate: weather.getTemperature(unit)?.toString() ?? '-',
+            temperate: weather.getTemperature(unit).toString(),
             isCelsius: unit == Unit.metric,
             style: theme.textTheme.displayLarge?.copyWith(
               color: theme.colorScheme.onPrimary,
               fontWeight: FontWeight.w700,
             )),
-        // WEATHER IMAGE
-
         // WEATHER DESCRIPTION
         Text(weather.description.capitalized(),
             style: theme.textTheme.headlineSmall?.copyWith(
               color: theme.colorScheme.onPrimary,
               fontWeight: FontWeight.w600,
             )),
+        TemperatureRangeText(
+          minTemperature: weather.getMinTemperature(unit).toString(),
+          maxTemperature: weather.getMaxTemperature(unit).toString(),
+          style: theme.textTheme.headlineSmall?.copyWith(
+            color: theme.colorScheme.onPrimary,
+            fontWeight: FontWeight.w500,
+          ),
+        )
       ],
     );
   }
-
-  void _onMenuPressed() {}
 
   void _onSearchAction(BuildContext context) {}
 }
