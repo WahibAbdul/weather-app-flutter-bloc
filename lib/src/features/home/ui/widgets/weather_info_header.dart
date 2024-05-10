@@ -76,6 +76,4 @@ class WeatherInfoHeader extends StatelessWidget {
       ],
     );
   }
-
-  void _onSearchAction(BuildContext context) {}
 }
