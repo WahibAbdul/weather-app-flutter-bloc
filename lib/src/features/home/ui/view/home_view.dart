@@ -1,10 +1,9 @@
 import 'package:falconi_weather/src/common/constants/dimens.dart';
-import 'package:falconi_weather/src/common/constants/spacing.dart';
+import 'package:falconi_weather/src/common/models/weather.dart';
 import 'package:falconi_weather/src/features/home/bloc/location_weather_bloc.dart';
-import 'package:falconi_weather/src/features/home/ui/widgets/upcoming_forecast_view.dart';
-import 'package:falconi_weather/src/features/home/ui/widgets/weather_atmospheric_grid.dart';
 import 'package:falconi_weather/src/features/home/ui/widgets/weather_forecast_error_view.dart';
-import 'package:falconi_weather/src/features/home/ui/widgets/weather_info_header.dart';
+import 'package:falconi_weather/src/features/home/ui/widgets/weather_information_landscape.dart';
+import 'package:falconi_weather/src/features/home/ui/widgets/weather_information_portrait.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,39 +30,29 @@ class HomeView extends StatelessWidget {
                   padding: EdgeInsets.all(Dimens.margin),
                   child: Center(child: WeatherForecastErrorView()),
                 ),
-              LocationWeatherStateStatus.loaded => SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Spacing.vertical,
-                      if (state.selectedWeather != null) ...[
-                        WeatherInfoHeader(
-                          weather: state.selectedWeather!,
+              LocationWeatherStateStatus.loaded => OrientationBuilder(
+                  builder: (context, orientation) => orientation == Orientation.portrait
+                      ? WeatherInformationPortrait(
+                          selectedWeather: state.selectedWeather,
+                          weeklyForecast: state.forecast?.daily ?? [],
                           unit: state.unit,
+                          onWeatherSelected: (index, weather) => _onWeatherSelected(context, index, weather),
+                        )
+                      : WeatherInformationLandscape(
+                          selectedWeather: state.selectedWeather,
+                          weeklyForecast: state.forecast?.daily ?? [],
+                          unit: state.unit,
+                          onWeatherSelected: (index, weather) => _onWeatherSelected(context, index, weather),
                         ),
-                        Spacing.vertical,
-                        Padding(
-                          padding: const EdgeInsets.all(Dimens.margin),
-                          child: UpcomingForecastView(
-                            daily: state.forecast!.daily,
-                            unit: state.unit,
-                            onSelected: (index, weather) =>
-                                context.read<LocationWeatherBloc>().add(LocationWeatherSelectedEvent(index, weather)),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(Dimens.margin),
-                          child: WeatherAtmosphericGrid(
-                            weather: state.selectedWeather!,
-                            canScroll: false,
-                            unit: state.unit,
-                          ),
-                        ),
-                      ]
-                    ],
-                  ),
                 ),
             });
       },
     );
+  }
+
+  void _onWeatherSelected(BuildContext context, int index, Weather weather) {
+    context.read<LocationWeatherBloc>().add(
+          LocationWeatherSelectedEvent(index, weather),
+        );
   }
 }
