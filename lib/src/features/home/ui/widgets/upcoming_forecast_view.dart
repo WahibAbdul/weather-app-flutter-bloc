@@ -1,10 +1,18 @@
 import 'package:falconi_weather/src/common/constants/dimens.dart';
 import 'package:falconi_weather/src/common/constants/spacing.dart';
+import 'package:falconi_weather/src/common/enums/units.dart';
+import 'package:falconi_weather/src/common/models/weather.dart';
 import 'package:falconi_weather/src/features/home/ui/widgets/weather_day_info.dart';
 import 'package:flutter/material.dart';
 
 class UpcomingForecastView extends StatelessWidget {
-  const UpcomingForecastView({super.key});
+  const UpcomingForecastView({
+    super.key,
+    required this.daily,
+    this.unit = Unit.metric,
+  });
+  final List<Weather> daily;
+  final Unit unit;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +20,7 @@ class UpcomingForecastView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: Dimens.margin),
       decoration: BoxDecoration(
-        color: Colors.white.withAlpha(100),
+        color: Colors.white.withAlpha(50),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -27,19 +35,21 @@ class UpcomingForecastView extends StatelessWidget {
                 )),
           ),
           Spacing.vExtra,
-          SizedBox(
-            height: 100,
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxHeight: 150,
+            ),
             child: ListView.separated(
                 padding: const EdgeInsets.symmetric(horizontal: Dimens.margin),
-                itemCount: 10,
+                itemCount: daily.length,
                 scrollDirection: Axis.horizontal,
                 separatorBuilder: (context, index) => Spacing.horizontal,
-                itemBuilder: (context, index) {
-                  return const SizedBox.square(
-                    dimension: 100,
-                    child: WeatherDayInfo(),
-                  );
-                }),
+                itemBuilder: (context, index) => ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        minWidth: 110,
+                      ),
+                      child: WeatherDayInfo(weather: daily[index], unit: unit),
+                    )),
           ),
         ],
       ),

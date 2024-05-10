@@ -10,3 +10,9 @@ class LocationWeatherFetchedEvent extends LocationWeatherEvent {
 
   LocationWeatherFetchedEvent(this.location);
 }
+
+class LocationWeatherUnitChangedEvent extends LocationWeatherEvent {
+  final Unit unit;
+
+  LocationWeatherUnitChangedEvent(this.unit);
+}

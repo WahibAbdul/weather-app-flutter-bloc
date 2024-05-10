@@ -19,7 +19,7 @@ class AtmosphericDataTile extends StatelessWidget {
       width: 200,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white.withAlpha(100),
+        color: Colors.white.withAlpha(50),
         borderRadius: BorderRadius.circular(25),
       ),
       child: Column(
