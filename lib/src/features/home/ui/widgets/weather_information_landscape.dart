@@ -25,13 +25,6 @@ class WeatherInformationLandscape extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        if (selectedWeather != null)
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: Dimens.marginLarge),
-            child: WeatherInfoHeader(weather: selectedWeather!, unit: unit),
-          )),
-        Spacing.hLarge,
         Expanded(
           child: ListView(
             padding: const EdgeInsets.symmetric(vertical: Dimens.marginLarge),
@@ -51,6 +44,13 @@ class WeatherInformationLandscape extends StatelessWidget {
             ],
           ),
         ),
+        Spacing.hLarge,
+        if (selectedWeather != null)
+          Expanded(
+              child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: Dimens.marginLarge),
+            child: WeatherInfoHeader(weather: selectedWeather!, unit: unit),
+          )),
       ],
     );
   }
