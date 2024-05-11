@@ -23,7 +23,7 @@ class OpenWeatherApiClient {
     final url = Uri.parse(
       'https://api.openweathermap.org/data/3.0/onecall?lat=$lat&lon=$lng&appid=$apiKey&units=${unit.name}',
     );
-    final response = await httpClient.get(url);
+    final response = await httpClient.get(url).timeout(const Duration(seconds: 10));
 
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body) as Map<String, dynamic>;
