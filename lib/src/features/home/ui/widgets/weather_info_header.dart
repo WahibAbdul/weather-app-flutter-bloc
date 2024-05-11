@@ -35,11 +35,13 @@ class WeatherInfoHeader extends StatelessWidget {
               ),
             ),
             // LOCATION NAME
-            Text(weather.date.isToday ? 'Current' : weather.date.formattedDate('EEEE'),
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  color: theme.colorScheme.onPrimary,
-                  fontWeight: FontWeight.w600,
-                )),
+            Text(
+              weather.date.isToday ? 'Current' : weather.date.formattedDate('EEEE'),
+              style: theme.textTheme.headlineSmall?.copyWith(
+                color: theme.colorScheme.onPrimary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             const WeatherInfoHeaderMenuButton(),
           ],
         ),

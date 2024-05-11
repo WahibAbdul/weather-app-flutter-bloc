@@ -1,4 +1,3 @@
-import 'package:open_weather_api/src/models/daily_forecast.dart';
 import 'package:open_weather_api/src/models/feel.dart';
 import 'package:open_weather_api/src/models/models.dart';
 import 'package:test/test.dart';

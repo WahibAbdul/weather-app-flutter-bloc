@@ -1,5 +1,4 @@
 import 'package:open_weather_api/open_weather_api.dart';
-import 'package:open_weather_api/src/models/current_forecast.dart';
 import 'package:test/test.dart';
 
 void main() {
