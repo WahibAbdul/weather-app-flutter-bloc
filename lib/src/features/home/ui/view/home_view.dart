@@ -2,8 +2,7 @@ import 'package:falconi_weather/src/common/constants/dimens.dart';
 import 'package:falconi_weather/src/common/models/weather.dart';
 import 'package:falconi_weather/src/features/home/bloc/location_weather_bloc.dart';
 import 'package:falconi_weather/src/features/home/ui/widgets/weather_forecast_error_view.dart';
-import 'package:falconi_weather/src/features/home/ui/widgets/weather_information_landscape.dart';
-import 'package:falconi_weather/src/features/home/ui/widgets/weather_information_portrait.dart';
+import 'package:falconi_weather/src/features/home/ui/widgets/weather_information_adaptive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,20 +29,11 @@ class HomeView extends StatelessWidget {
                   padding: EdgeInsets.all(Dimens.margin),
                   child: Center(child: WeatherForecastErrorView()),
                 ),
-              LocationWeatherStateStatus.loaded => OrientationBuilder(
-                  builder: (context, orientation) => orientation == Orientation.portrait
-                      ? WeatherInformationPortrait(
-                          selectedWeather: state.selectedWeather,
-                          weeklyForecast: state.forecast?.daily ?? [],
-                          unit: state.unit,
-                          onWeatherSelected: (index, weather) => _onWeatherSelected(context, index, weather),
-                        )
-                      : WeatherInformationLandscape(
-                          selectedWeather: state.selectedWeather,
-                          weeklyForecast: state.forecast?.daily ?? [],
-                          unit: state.unit,
-                          onWeatherSelected: (index, weather) => _onWeatherSelected(context, index, weather),
-                        ),
+              LocationWeatherStateStatus.loaded => WeatherInformationAdaptive(
+                  selectedWeather: state.selectedWeather,
+                  weeklyForecast: state.forecast?.daily ?? [],
+                  unit: state.unit,
+                  onWeatherSelected: (index, weather) => _onWeatherSelected(context, index, weather),
                 ),
             });
       },
